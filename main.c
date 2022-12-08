@@ -1,21 +1,30 @@
 #include "shell.h"
+/**
+ * main - main function to call the prompt
+ * Return: Always 0 (succes)
+ */
 
-int main(){ 
-  while(1) {
-    char comando[100];  
-	printf("$ ");
-	scanf(" %99[^\n]", comando);	
-	if(!strcmp("exit", comando)){
-		break;
+int main(void)
+{
+	while (1)
+	{
+		char comando[100];
+
+		printf("$ ");
+		scanf(" %99[^\n]", comando);
+		if (!strcmp("exit", comando))
+			break;
+
+		pid_t pid = fork();
+
+		if (!pid)
+		{
+			execute(comando);
+			break;
+		}
+		else
+			wait(NULL);
 	}
-
-	pid_t pid = fork();
-	if(!pid){
-		execute(comando);		
-		break;
-  	}else{
-  		wait(NULL);
-  	} 
-  }  
-  return 0;
+	return (0);
 }
+
