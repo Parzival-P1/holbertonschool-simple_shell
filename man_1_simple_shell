@@ -1,0 +1,40 @@
+.TH man 1 "December 8, 2022" "1.0" "xell, the shell man page"
+.SH NAME
+.B Olaf
+- A basic UNIX command line interpreter.
+.SH SYNOPSIS
+Olaf can interpret and execute command line arguments read from the standard input.
+.SH DESCRIPTION
+The xell, shell is a simple program which reads line by line from a file or the terminal line.  If the line is a valid command The xell interprets the lines and executes it.
+
+.SH USAGE
+All the files must be compiled on an Ubuntu 20.04 LTS machine with "gcc -Wall -Werror -Wextra -pedantic *.c -o xell".
+
+Once compiled, to start the program, run:
+.br
+$ ./xell
+
+To exit the program, run:
+.br
+xell $ exit
+
+.SH BUILT-INS
+The following built-ins are supported by the Olaf shell:
+
+.B env - 
+Print the current environment.
+
+.B setenv VARIABLE VALUE - 
+Initialize a new environment variable, or will  modify an existing one. 
+
+.B unsetenv VARIABLE - 
+Remove the environment variable.
+
+.SH RETURN VALUE
+The xell, shell will exit with status 0 unless status is specified.
+.SH SEE ALSO
+.I sh(1)
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Francisco J. Hdez
