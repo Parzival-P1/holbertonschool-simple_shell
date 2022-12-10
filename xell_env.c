@@ -1,8 +1,9 @@
 #include "xell.h"
 /**
- * make_env - creates the xell environment from the env passed to main
+ * make_env - make the shell environment from the environment passed to main
  * @env: environment passed to main
- * Return: ptr to the newly environment
+ *
+ * Return: pointer to the new environment
  */
 
 char **make_env(char **env)
@@ -12,8 +13,8 @@ char **make_env(char **env)
 
 	for (i = 0; env[i] != NULL; i++)
 		;
-	newnenv = malloc(sizeof(char *) * (i + 1));
-	if (newnev == NULL)
+	newenv = malloc(sizeof(char *) * (i + 1));
+	if (newenv == NULL)
 	{
 		perror("Fatal Error");
 		exit(1);
@@ -25,10 +26,12 @@ char **make_env(char **env)
 }
 
 /**
- * free_env - free the xell's enviroment
- * @env: xell's environment to be free
+ * free_env - free the shell's environment
+ * @env: shell's environment
+ *
  * Return: void
  */
+
 void free_env(char **env)
 {
 	unsigned int i;
