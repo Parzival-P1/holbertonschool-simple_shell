@@ -1,5 +1,4 @@
 #include "xell.h"
-
 /* global variable for ^C handling */
 unsigned int sig_flag;
 
@@ -13,7 +12,7 @@ static void sig_handler(int uuv)
 {
 	(void) uuv;
 	if (sig_flag == 0)
-		_puts("\n$$$ ");
+		_puts("\n$ ");
 	else
 		_puts("\n");
 }
