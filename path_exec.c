@@ -1,11 +1,11 @@
 #include "xell.h"
 /**
- * path_execute - excutes a command in the path
+ * path_execute - executes a command in the path
  * @command: full path to the command
- * @vars: ptr to the struct of variables
- * Return: 0 if success, 1 if fails
+ * @vars: pointer to struct of variables
+ *
+ * Return: 0 on success, 1 on failure
  */
-
 int path_execute(char *command, vars_t *vars)
 {
 	pid_t child_pid;
@@ -14,11 +14,11 @@ int path_execute(char *command, vars_t *vars)
 	{
 		child_pid = fork();
 		if (child_pid == -1)
-			print_err(vars, NULL);
+			print_error(vars, NULL);
 		if (child_pid == 0)
 		{
-			if (execve(command, vars->sv, vars->env) == -1)
-				print_err(vars, NULL);
+			if (execve(command, vars->av, vars->env) == -1)
+				print_error(vars, NULL);
 		}
 		else
 		{
@@ -34,7 +34,7 @@ int path_execute(char *command, vars_t *vars)
 	}
 	else
 	{
-		print_err(vars, ": Permission denied\n");
+		print_error(vars, ": Permission denied\n");
 		vars->status = 126;
 	}
 	return (0);
@@ -43,7 +43,8 @@ int path_execute(char *command, vars_t *vars)
 /**
  * find_path - finds the PATH variable
  * @env: array of environment variables
- * Return: ptr to the node that contains the PATH, or NULL if fails
+ *
+ * Return: pointer to the node that contains the PATH, or NULL on failure
  */
 char *find_path(char **env)
 {
@@ -60,13 +61,13 @@ char *find_path(char **env)
 	}
 	return (env[i]);
 }
-
 /**
- * check_path - checks if the command is in the PATH
+ * check_for_path - checks if the command is in the PATH
  * @vars: variables
+ *
  * Return: void
  */
-void check_path(vars_t *vars)
+void check_for_path(vars_t *vars)
 {
 	char *path, *path_dup = NULL, *check = NULL;
 	unsigned int i = 0, r = 0;
@@ -82,7 +83,7 @@ void check_path(vars_t *vars)
 		{
 			path_dup = _strdup(path + 5);
 			path_tokens = tokenize(path_dup, ":");
-			for (i = 0; path_tokeens && path_tokens[i]; i++, free(check))
+			for (i = 0; path_tokens && path_tokens[i]; i++, free(check))
 			{
 				check = _strcat(path_tokens[i], vars->av[0]);
 				if (stat(check, &buf) == 0)
@@ -92,11 +93,16 @@ void check_path(vars_t *vars)
 					break;
 				}
 			}
+			free(path_dup);
+			if (path_tokens == NULL)
+			{
+				vars->status = 127;
+				new_exit(vars);
+			}
 		}
-		free(path_dup);
-		if (path_tokens == NULL)
+		if (path == NULL || path_tokens[i] == NULL)
 		{
-			print_err(vars, ": not found\n");
+			print_error(vars, ": not found\n");
 			vars->status = 127;
 		}
 		free(path_tokens);
@@ -104,11 +110,11 @@ void check_path(vars_t *vars)
 	if (r == 1)
 		new_exit(vars);
 }
-
 /**
  * execute_cwd - executes the command in the current working directory
- * @vars:  ptr to the struct of variables
- * Return: 0 if success, 1 if not
+ * @vars: pointer to struct of variables
+ *
+ * Return: 0 on success, 1 on failure
  */
 int execute_cwd(vars_t *vars)
 {
@@ -150,11 +156,11 @@ int execute_cwd(vars_t *vars)
 	vars->status = 127;
 	return (0);
 }
-
 /**
- * check_for_dir - checks if the command is part of a path
+ * check_for_dir - checks if the command is a part of a path
  * @str: command
- * Return: 1 if success, 0 on failure
+ *
+ * Return: 1 on success, 0 on failure
  */
 int check_for_dir(char *str)
 {
@@ -167,25 +173,4 @@ int check_for_dir(char *str)
 	}
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
