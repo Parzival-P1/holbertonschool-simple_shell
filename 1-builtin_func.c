@@ -1,7 +1,8 @@
 #include "xell.h"
 /**
- * add_key - creates a new env var
- * @vars: ptr to the struct of variables
+ * add_key - create a new environment variable
+ * @vars: pointer to struct of variables
+ *
  * Return: void
  */
 void add_key(vars_t *vars)
@@ -14,7 +15,7 @@ void add_key(vars_t *vars)
 	newenv = malloc(sizeof(char *) * (i + 2));
 	if (newenv == NULL)
 	{
-		print_err(vars, NULL);
+		print_error(vars, NULL);
 		vars->status = 127;
 		new_exit(vars);
 	}
@@ -23,7 +24,7 @@ void add_key(vars_t *vars)
 	newenv[i] = add_value(vars->av[1], vars->av[2]);
 	if (newenv[i] == NULL)
 	{
-		print_err(vars, NULL);
+		print_error(vars, NULL);
 		free(vars->buffer);
 		free(vars->commands);
 		free(vars->av);
@@ -37,10 +38,11 @@ void add_key(vars_t *vars)
 }
 
 /**
- * find_key - finds an enviroment variable
- * @env: array of enviroment variables
- * @key: enviroment variable to find
- * Return: ptr to address of the enviroinment variable
+ * find_key - finds an environment variable
+ * @env: array of environment variables
+ * @key: environment variable to find
+ *
+ * Return: pointer to address of the environment variable
  */
 char **find_key(char **env, char *key)
 {
@@ -62,7 +64,8 @@ char **find_key(char **env, char *key)
  * add_value - create a new environment variable string
  * @key: variable name
  * @value: variable value
- * Return: ptr to the new str
+ *
+ * Return: pointer to the new string;
  */
 char *add_value(char *key, char *value)
 {
@@ -74,7 +77,6 @@ char *add_value(char *key, char *value)
 	new = malloc(sizeof(char) * (len1 + len2 + 2));
 	if (new == NULL)
 		return (NULL);
-
 	for (i = 0; key[i] != '\0'; i++)
 		new[i] = key[i];
 	new[i] = '=';
@@ -85,9 +87,10 @@ char *add_value(char *key, char *value)
 }
 
 /**
- * _atoi - converts a str into an int
- * @str: string to be converted to an int
- * Return: the int value, or -1 if it fails
+ * _atoi - converts a string into an integer
+ * @str: string to convert
+ *
+ * Return: the integer value, or -1 if an error occurs
  */
 int _atoi(char *str)
 {
