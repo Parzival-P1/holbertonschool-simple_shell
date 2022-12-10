@@ -1,4 +1,4 @@
-#include "main.h"
+#include "xell.h"
 /**
  * print_error - prints error messages to standard error
  * @vars: pointer to struct of variables
