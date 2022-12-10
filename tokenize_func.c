@@ -1,6 +1,4 @@
 #include "xell.h"
-
-
 /**
  * tokenize - tokenizes a buffer with a delimiter
  * @buffer: buffer to tokenize
