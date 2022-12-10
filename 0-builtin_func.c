@@ -1,10 +1,11 @@
 #include "xell.h"
 /**
- * check_builtins - checks if its a builtin function
- * @vars: variables used
- * Return: ptr to the func or NULL if fails
+ * check_for_builtins - checks if the command is a builtin
+ * @vars: variables
+ *
+ * Return: pointer to the function or NULL
  */
-void (*check_builtins(vars_t *vars))(vars_t *vars)
+void (*check_for_builtins(vars_t *vars))(vars_t *vars)
 {
 	unsigned int i;
 	builtins_t check[] = {
@@ -26,21 +27,22 @@ void (*check_builtins(vars_t *vars))(vars_t *vars)
 }
 
 /**
- * new_exit - exit the xell
- * @vars: variable args
- * Return: Void ptr
+ * new_exit - exit program
+ * @vars: variables
+ *
+ * Return: void
  */
 void new_exit(vars_t *vars)
 {
-	innt status;
+	int status;
 
 	if (_strcmpr(vars->av[0], "exit") == 0 && vars->av[1] != NULL)
 	{
-		status = _atoi(vars->a[1]);
+		status = _atoi(vars->av[1]);
 		if (status == -1)
 		{
-			vars->satus = 2;
-			print_err(vars, ": prohibited number");
+			vars->status = 2;
+			print_error(vars, ": Illegal number: ");
 			_puts2(vars->av[1]);
 			_puts2("\n");
 			free(vars->commands);
@@ -57,9 +59,10 @@ void new_exit(vars_t *vars)
 }
 
 /**
- * _env - runs the current environment
- * @vars: struct of vars
- * Return: void
+ * _env - prints the current environment
+ * @vars: struct of variables
+ *
+ * Return: void.
  */
 void _env(vars_t *vars)
 {
@@ -74,9 +77,10 @@ void _env(vars_t *vars)
 }
 
 /**
- * new_setenv - creates a newly enviroment, or updates an existing one
- * @vars: ptr to struct of variables
- * Return: Void
+ * new_setenv - create a new environment variable, or edit an existing variable
+ * @vars: pointer to struct of variables
+ *
+ * Return: void
  */
 void new_setenv(vars_t *vars)
 {
@@ -85,7 +89,7 @@ void new_setenv(vars_t *vars)
 
 	if (vars->av[1] == NULL || vars->av[2] == NULL)
 	{
-		print_err(vars, ": Incorrect number of arguments\n");
+		print_error(vars, ": Incorrect number of arguments\n");
 		vars->status = 2;
 		return;
 	}
@@ -97,7 +101,7 @@ void new_setenv(vars_t *vars)
 		var = add_value(vars->av[1], vars->av[2]);
 		if (var == NULL)
 		{
-			print_err(vars, NULL);
+			print_error(vars, NULL);
 			free(vars->buffer);
 			free(vars->commands);
 			free(vars->av);
@@ -105,14 +109,15 @@ void new_setenv(vars_t *vars)
 			exit(127);
 		}
 		free(*key);
-		*key = vars;
+		*key = var;
 	}
 	vars->status = 0;
 }
 
 /**
- * new_unsetenv - remove an environment var
- * @vars: ptr to the struct of variables
+ * new_unsetenv - remove an environment variable
+ * @vars: pointer to a struct of variables
+ *
  * Return: void
  */
 void new_unsetenv(vars_t *vars)
@@ -123,14 +128,14 @@ void new_unsetenv(vars_t *vars)
 
 	if (vars->av[1] == NULL)
 	{
-		print_err(vars, ": Incorrect number of arguments\n");
+		print_error(vars, ": Incorrect number of arguments\n");
 		vars->status = 2;
 		return;
 	}
 	key = find_key(vars->env, vars->av[1]);
 	if (key == NULL)
 	{
-		print_err(vars, ": No variable to unset");
+		print_error(vars, ": No variable to unset");
 		return;
 	}
 	for (i = 0; vars->env[i] != NULL; i++)
@@ -138,7 +143,7 @@ void new_unsetenv(vars_t *vars)
 	newenv = malloc(sizeof(char *) * i);
 	if (newenv == NULL)
 	{
-		print_err(vars, NULL);
+		print_error(vars, NULL);
 		vars->status = 127;
 		new_exit(vars);
 	}
