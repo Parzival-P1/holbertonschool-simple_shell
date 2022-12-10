@@ -1,13 +1,16 @@
 #include "xell.h"
 /**
- * check_match - checks if a char matches with a string
- * @c: char to be checked by the function
- * @str: string to be checked by
- * Return: 1 if it matches, 0 if not.
+ * check_match - checks if a character matches any in a string
+ * @c: character to check
+ * @str: string to check
+ *
+ * Return: 1 if match, 0 if not
  */
 
 unsigned int check_match(char c, const char *str)
 {
+	unsigned int i;
+
 	for (i = 0; str[i] != '\0'; i++)
 	{
 		if (c == str[i])
@@ -19,8 +22,9 @@ unsigned int check_match(char c, const char *str)
 /**
  * new_strtok - custom strtok
  * @str: string to tokenize
- * @delim: delimiter ot tokenize
- * Return: ptr to the next token
+ * @delim: delimiter to tokenize against
+ *
+ * Return: pointer to the next token or NULL
  */
 char *new_strtok(char *str, const char *delim)
 {
@@ -33,7 +37,7 @@ char *new_strtok(char *str, const char *delim)
 	token_start = next_token;
 	if (token_start == NULL)
 		return (NULL);
-	for (i = 0; nezt_token[i] != '\0'; i++)
+	for (i = 0; next_token[i] != '\0'; i++)
 	{
 		if (check_match(next_token[i], delim) == 0)
 			break;
@@ -44,7 +48,7 @@ char *new_strtok(char *str, const char *delim)
 		return (NULL);
 	}
 	token_start = next_token + i;
-	next_token  = token_start;
+	next_token = token_start;
 	for (i = 0; next_token[i] != '\0'; i++)
 	{
 		if (check_match(next_token[i], delim) == 1)
