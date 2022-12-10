@@ -1,9 +1,10 @@
 #include "xell.h"
 /**
- * _realloc - reallocates a ptr to double the space
- * @ptr: ptr to the prev array
- * @size: ptr to the number of elements in the prev array
- * Return: ptr to the new array
+ * _realloc - reallocates a pointer to double the space
+ * @ptr: pointer to the old array
+ * @size: pointer to number of elements in the old array
+ *
+ * Return: pointer to the new array
  */
 
 char **_realloc(char **ptr, size_t *size)
