@@ -1,5 +1,4 @@
 #include "xell.h"
-
 /**
  * _puts - writes a string to standard output
  * @str: string to write
