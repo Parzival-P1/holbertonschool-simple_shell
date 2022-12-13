@@ -1,4 +1,4 @@
-<h1 align="center"> Simple Shell </h1>
+<h1 align="center"> Simple Shell 🐚</h1>
 
 ### Learning Objectives 🎯
 - Who designed and implemented the original Unix operating system
